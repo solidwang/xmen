@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:xmen="http://www.solid4j.com/schema/xmen" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-2.5.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+       http://www.solid4j.com/schema/xmen http://www.solid4j.com/schema/xmen.xsd ">
+
+	<!-- 注册中心 -->
+	<xmen:registry name="registry" regProtocol="zookeeper"
+		address="127.0.0.1:2181" connectTimeout="2000" />
+
+	<!-- 服务引用 -->
+    <xmen:referer id="testService" interface="com.solid4j.xmen.demo.service.TestService" />
+	<xmen:referer id="demoService" interface="com.solid4j.xmen.demo.service.DemoService" />
+
+
+    <bean id="demoAction" class="com.solid4j.xmen.demo.consumer.DemoAction" init-method="start">
+		<property name="testService" ref="testService" />
+        <property name="demoService" ref="demoService" />
+	</bean>
+
+</beans>

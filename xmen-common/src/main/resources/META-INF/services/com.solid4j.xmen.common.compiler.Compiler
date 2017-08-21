@@ -1,0 +1,2 @@
+adaptive=com.solid4j.xmen.common.compiler.support.AdaptiveCompiler
+javassist=com.solid4j.xmen.common.compiler.support.JavassistCompiler

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.solid4j.com/schema/xmen" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:tool="http://www.springframework.org/schema/tool" xmlns:beans="http://www.springframework.org/schema/beans"
+	targetNamespace="http://www.solid4j.com/schema/xmen">
+	<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+	<xsd:import namespace="http://www.springframework.org/schema/tool" />
+	<xsd:import namespace="http://www.springframework.org/schema/beans" />
+
+	<xsd:complexType name="abstractConfig">
+		<xsd:anyAttribute />
+	</xsd:complexType>
+
+	<xsd:complexType name="abstractRegistryConfig">
+		<xsd:complexContent>
+			<xsd:extension base="abstractConfig">
+				<xsd:attribute name="id" type="xsd:ID" />
+				<xsd:attribute name="name" type="xsd:string" use="optional">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[ 注册名称. ]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="regProtocol" type="xsd:string"
+					use="optional">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[ 注册协议. ]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="address" type="xsd:string" use="optional">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[ 注册中心地址. ]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="connectTimeout" type="xsd:integer"
+					use="optional">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[ 注册中心连接超时时间(毫秒). ]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="abstractProtocolConfig">
+		<xsd:complexContent>
+			<xsd:extension base="abstractConfig">
+				<xsd:attribute name="id" type="xsd:ID" />
+				<xsd:attribute name="name" type="xsd:string" use="optional">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[ 协议名称. ]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="port" type="xsd:integer" use="optional">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[ 服务端口 ]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="abstractServiceConfig">
+		<xsd:complexContent>
+			<xsd:extension base="abstractConfig">
+				<xsd:attribute name="id" type="xsd:ID" />
+				<xsd:attribute name="interface" type="xsd:token">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[ 定义接口，在注册中心中注册 ]]></xsd:documentation>
+						<xsd:appinfo>
+							<tool:annotation>
+								<tool:expected-type type="java.lang.Class" />
+							</tool:annotation>
+						</xsd:appinfo>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="ref" type="xsd:string" use="optional">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[ 接口实现 ]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="class" type="xsd:string" use="optional">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[ 接口实现 ]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="abstractRefererConfig">
+		<xsd:complexContent>
+			<xsd:extension base="abstractConfig">
+				<xsd:attribute name="id" type="xsd:ID" />
+				<xsd:attribute name="interface" type="xsd:token" use="required">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[ 调用的接口 ]]></xsd:documentation>
+						<xsd:appinfo>
+							<tool:annotation>
+								<tool:expected-type type="java.lang.Class" />
+							</tool:annotation>
+						</xsd:appinfo>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:element name="registry" type="abstractRegistryConfig">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[ 注册中心配置 ]]></xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="protocol" type="abstractProtocolConfig">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[ 服务协议 ]]></xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="service" type="abstractServiceConfig">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[ 服务配置 ]]></xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="referer" type="abstractRefererConfig">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[ 引用服务配置 ]]></xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+</xsd:schema>
