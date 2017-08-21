@@ -14,6 +14,7 @@ import com.solid4j.xmen.rpc.protocol.AbstractProtocol;
 import java.util.Map;
 
 /**
+ * Xmen协议类
  * @author solidwang
  * @since 1.0
  */

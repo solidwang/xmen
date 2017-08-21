@@ -22,7 +22,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
 /**
- * 服务配置文件读取
+ * service配置解析
+ *
  * @author solidwang
  * @since 1.0
  */
@@ -71,7 +72,7 @@ public class ServiceConfigBean<T> extends ServiceConfig<T>
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         // 发布服务
-        if(getExported().get()) {
+        if (getExported().get()) {
             LOGGER.info("service is exported");
             return;
         }

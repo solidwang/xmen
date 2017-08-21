@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 /**
+ * JDK代理
  * @author solidwang
  * @since 1.0
  */

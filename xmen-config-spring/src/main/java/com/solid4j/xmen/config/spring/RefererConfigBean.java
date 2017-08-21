@@ -12,13 +12,15 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 /**
+ * referer配置解析
+ *
  * @author solidwang
  * @since 1.0
  */
-public class RefererConfigBean<T> extends RefererConfig<T>implements FactoryBean<T>, BeanFactoryAware, ApplicationContextAware, InitializingBean {
+public class RefererConfigBean<T> extends RefererConfig<T> implements FactoryBean<T>, BeanFactoryAware, ApplicationContextAware, InitializingBean {
 
     private transient BeanFactory beanFactory;
-    
+
     @Override
     public void afterPropertiesSet() throws Exception {
 
