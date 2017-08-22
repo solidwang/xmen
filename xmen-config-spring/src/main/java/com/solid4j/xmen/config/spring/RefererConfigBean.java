@@ -43,6 +43,7 @@ public class RefererConfigBean<T> extends RefererConfig<T> implements FactoryBea
 
     @Override
     public Class<?> getObjectType() {
+
         return getInterface();
     }
 

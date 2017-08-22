@@ -55,4 +55,8 @@ public class RefererConfig<T> extends AbstractInterfaceConfig {
 
         return interfaceClass;
     }
+
+    public void setInterface(Class<?> interfaceClass) {
+        this.interfaceClass = interfaceClass;
+    }
 }
