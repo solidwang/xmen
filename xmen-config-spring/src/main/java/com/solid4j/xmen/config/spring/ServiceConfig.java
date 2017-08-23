@@ -65,14 +65,12 @@ public class ServiceConfig<T> extends AbstractInterfaceConfig {
     public synchronized void export() {
         // 循环执行多协议export
         LOGGER.info("service export start...");
-        List<RegistryConfig> registrys = getRegistries();
-        List<ProtocolConfig> protocols = getProtocols();
-        for (ProtocolConfig protocol : protocols) {
-            doExport(protocol, registrys);
-        }
+        RegistryConfig registry = getRegistry();
+        ProtocolConfig protocol = getProtocol();
+        doExport(protocol, registry);
     }
 
-    private void doExport(ProtocolConfig protocolConfig, List<RegistryConfig> registrys) {
+    private void doExport(ProtocolConfig protocolConfig, RegistryConfig registry) {
         String protocolName = protocolConfig.getName();
         Integer port = protocolConfig.getPort();
         if (protocolName == null || protocolName.length() == 0) {
@@ -82,11 +80,9 @@ public class ServiceConfig<T> extends AbstractInterfaceConfig {
         String host = NetUtil.getLocalAddress();
         URL url = new URL(protocolName, host, port);
         //遍历注册中心，进行服务发布
-        for (RegistryConfig registryConfig : registrys) {
-            Invoker<?> invoker = proxyFactory.getInvoker(ref, (Class<T>) interfaceClass, url);
-            Exporter<T> exporter = protocol.export(invoker, handlerMap);
-            exported.set(true);
-        }
+        Invoker<?> invoker = proxyFactory.getInvoker(ref, (Class<T>) interfaceClass, url);
+        Exporter<T> exporter = protocol.export(invoker, handlerMap);
+        exported.set(true);
     }
 
     protected AtomicBoolean getExported() {

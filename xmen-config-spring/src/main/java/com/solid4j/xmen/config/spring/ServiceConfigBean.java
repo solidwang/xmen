@@ -45,9 +45,8 @@ public class ServiceConfigBean<T> extends ServiceConfig<T>
         List<ProtocolConfig> protocols = new ArrayList<ProtocolConfig>();
         for (String name : XmenNamespaceHandler.protocolDefineNames) {
             ProtocolConfig protocol = beanFactory.getBean(name, ProtocolConfig.class);
-            protocols.add(protocol);
+            setProtocol(protocol);
         }
-        setProtocols(protocols);
     }
 
     private void configRegistry() {

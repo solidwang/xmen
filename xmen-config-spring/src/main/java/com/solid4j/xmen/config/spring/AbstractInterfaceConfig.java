@@ -13,32 +13,24 @@ import java.util.List;
 public class AbstractInterfaceConfig extends AbstractConfig {
 
     // 服务暴漏的协议
-    protected List<ProtocolConfig> protocols;
+    protected ProtocolConfig protocol;
 
     // 注册中心的配置列表
-    protected List<RegistryConfig> registries;
+    protected RegistryConfig registry;
 
-    public List<RegistryConfig> getRegistries() {
-
-        return registries;
+    public ProtocolConfig getProtocol() {
+        return protocol;
     }
 
-    public void setRegistries(List<RegistryConfig> registries) {
-
-        this.registries = registries;
+    public void setProtocol(ProtocolConfig protocol) {
+        this.protocol = protocol;
     }
-    
+
+    public RegistryConfig getRegistry() {
+        return registry;
+    }
+
     public void setRegistry(RegistryConfig registry) {
-        this.registries = Collections.singletonList(registry);
-    }
-
-    public List<ProtocolConfig> getProtocols() {
-
-        return protocols;
-    }
-
-    public void setProtocols(List<ProtocolConfig> protocols) {
-
-        this.protocols = protocols;
+        this.registry = registry;
     }
 }
