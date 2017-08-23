@@ -3,6 +3,7 @@
  */
 package com.solid4j.xmen.config.spring;
 
+import com.solid4j.xmen.common.constant.RegConstant;
 import com.solid4j.xmen.common.constant.XmenConstant;
 import com.solid4j.xmen.common.extension.ExtensionLoader;
 import com.solid4j.xmen.common.rpc.URL;
@@ -11,11 +12,11 @@ import com.solid4j.xmen.rpc.Exporter;
 import com.solid4j.xmen.rpc.Invoker;
 import com.solid4j.xmen.rpc.Protocol;
 import com.solid4j.xmen.rpc.ProxyFactory;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -76,13 +77,23 @@ public class ServiceConfig<T> extends AbstractInterfaceConfig {
         if (protocolName == null || protocolName.length() == 0) {
             protocolName = XmenConstant.PROTOCOL_NAME;
         }
+
         //构建服务发布URL
         String host = NetUtil.getLocalAddress();
-        URL url = new URL(protocolName, host, port);
+        URL url = new URL(protocolName, host, port, getRegParamaters(registry));
+
         //遍历注册中心，进行服务发布
         Invoker<?> invoker = proxyFactory.getInvoker(ref, (Class<T>) interfaceClass, url);
         Exporter<T> exporter = protocol.export(invoker, handlerMap);
         exported.set(true);
+    }
+
+    private Map<String, String> getRegParamaters(RegistryConfig registryConfig) {
+        Map<String, String> paramaters = new HashMap<>();
+        paramaters.put(RegConstant.REG_PROTOCOL, registry.getRegProtocol());
+        paramaters.put(RegConstant.ADDRESS, registry.getAddress());
+        paramaters.put(RegConstant.CONNECT_TIMEOUT, String.valueOf(registry.getConnectTimeout()));
+        return paramaters;
     }
 
     protected AtomicBoolean getExported() {

@@ -3,11 +3,11 @@
  */
 package com.solid4j.xmen.registry.zookeeper;
 
+import com.solid4j.xmen.common.constant.RegConstant;
 import com.solid4j.xmen.common.constant.XmenConstant;
 import com.solid4j.xmen.common.rpc.URL;
 import com.solid4j.xmen.common.util.CollectionUtil;
 import com.solid4j.xmen.registry.AbstractRegistry;
-
 import org.I0Itec.zkclient.ZkClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,16 +23,18 @@ public class ZookeeperRegistry extends AbstractRegistry {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ZookeeperRegistry.class);
 
-    private final ZkClient zkClient;
+    private static ZkClient zkClient = null;
 
     public ZookeeperRegistry() {
-        // 创建 ZooKeeper 客户端
-        zkClient = new ZkClient("127.0.0.1:2181", 5000, 10000);
-        LOGGER.info("connect zookeeper");
     }
 
     @Override
     public void registry(String serviceName, URL url) {
+
+        String address = url.getParameter(RegConstant.ADDRESS);
+        Integer connectionTimeout = Integer.parseInt(url.getParameter(RegConstant.CONNECT_TIMEOUT, "2000"));
+        zkClient = new ZkClient(address, connectionTimeout, connectionTimeout);
+
         LOGGER.debug("registry service start...");
         // 创建 registry 节点（持久）
         String registryPath = XmenConstant.ZK_REGISTRY_PATH;
@@ -53,8 +55,12 @@ public class ZookeeperRegistry extends AbstractRegistry {
     }
 
     @Override
-    public String discovery(String serviceName) {
-        ZkClient zkClient = new ZkClient("127.0.0.1:2181", 5000, 10000);;
+    public String discovery(String serviceName, URL url) {
+
+        String host = url.getHost();
+        Integer connectTimeout = Integer.parseInt(url.getParameter(RegConstant.CONNECT_TIMEOUT, "2000"));
+        ZkClient zkClient = new ZkClient(host, connectTimeout, connectTimeout);
+
         // 创建 ZooKeeper 客户端
         LOGGER.debug("connect zookeeper");
         try {

@@ -15,5 +15,5 @@ public interface RegistryFactory {
 
     void registry(String serviceName, URL url);
 
-    String discovery(String serviceName);
+    String discovery(String serviceName, URL url);
 }

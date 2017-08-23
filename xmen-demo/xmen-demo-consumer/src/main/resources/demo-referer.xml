@@ -17,12 +17,12 @@
 		address="127.0.0.1:2181" connectTimeout="2000" />
 
 	<!-- 服务引用 -->
-    <xmen:referer id="testService" interface="com.solid4j.xmen.demo.service.TestService" />
+    <xmen:referer id="demoService2" interface="com.solid4j.xmen.demo.service.DemoService2" />
 	<xmen:referer id="demoService" interface="com.solid4j.xmen.demo.service.DemoService" />
 
 
     <bean id="demoAction" class="com.solid4j.xmen.demo.consumer.DemoAction" init-method="start">
-		<property name="testService" ref="testService" />
+		<property name="demoService2" ref="demoService2" />
         <property name="demoService" ref="demoService" />
 	</bean>
 

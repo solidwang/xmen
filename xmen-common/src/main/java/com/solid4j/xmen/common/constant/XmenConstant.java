@@ -13,6 +13,9 @@ public class XmenConstant {
     //路径分隔符
     public static final String PATH_SEPARATOR = "/";
 
+    //参数分隔符
+    public static final String PARAMATER_SEPARATOR = "?";
+
     //协议名称
     public static final String PROTOCOL_NAME = "xmen";
     //zookeeper注册根路径

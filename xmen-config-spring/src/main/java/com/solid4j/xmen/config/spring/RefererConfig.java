@@ -3,12 +3,16 @@
  */
 package com.solid4j.xmen.config.spring;
 
+import com.solid4j.xmen.common.constant.RegConstant;
 import com.solid4j.xmen.common.extension.ExtensionLoader;
 import com.solid4j.xmen.common.rpc.URL;
 import com.solid4j.xmen.registry.RegistryFactory;
 import com.solid4j.xmen.rpc.Invoker;
 import com.solid4j.xmen.rpc.Protocol;
 import com.solid4j.xmen.rpc.ProxyFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * referer配置解析
@@ -43,16 +47,29 @@ public class RefererConfig<T> extends AbstractInterfaceConfig {
 
     @SuppressWarnings("unchecked")
     private T createProxy() {
-        // 从注册工厂发现注册URL
-        String registryURL = registryFactory.discovery(interfaceClass.getName());
-        URL url = URL.valueOf(registryURL);
+        // 注册中心URL
+        RegistryConfig registryConfig = getRegistry();
+        URL regURL = getRegURL(registryConfig);
+
+        // 获取服务URL
+        String serviceURL = registryFactory.discovery(interfaceClass.getName(), regURL);
+        URL url = URL.valueOf(serviceURL);
         invoker = refprotocol.refer(interfaceClass, url);
         T t = (T) proxyFactory.getProxy(invoker);
         return t;
     }
 
-    public Class<?> getInterface() {
+    private URL getRegURL(RegistryConfig registryConfig) {
+        String protocol = registryConfig.getRegProtocol();
+        String host = registryConfig.getAddress();
+        Integer connectTimeout = registryConfig.getConnectTimeout();
+        Map<String, String> paramaters = new HashMap<>();
+        paramaters.put(RegConstant.CONNECT_TIMEOUT, String.valueOf(connectTimeout));
+        URL regURL = new URL(protocol, host, 0, paramaters);
+        return regURL;
+    }
 
+    public Class<?> getInterface() {
         return interfaceClass;
     }
 

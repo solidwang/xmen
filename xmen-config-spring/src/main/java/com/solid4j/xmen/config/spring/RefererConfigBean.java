@@ -3,6 +3,7 @@
  */
 package com.solid4j.xmen.config.spring;
 
+import com.solid4j.xmen.config.spring.handler.XmenNamespaceHandler;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -23,7 +24,14 @@ public class RefererConfigBean<T> extends RefererConfig<T> implements FactoryBea
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        configRegistry();
+    }
 
+    private void configRegistry() {
+        for (String name : XmenNamespaceHandler.registryDefineNames) {
+            RegistryConfig registoryConfig = beanFactory.getBean(name, RegistryConfig.class);
+            setRegistry(registoryConfig);
+        }
     }
 
     @Override

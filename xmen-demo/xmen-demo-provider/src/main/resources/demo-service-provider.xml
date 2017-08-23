@@ -21,6 +21,6 @@
 	<!-- 具体rpc服务配置，声明实现的接口类。 -->
 	<xmen:service interface="com.solid4j.xmen.demo.service.DemoService" class="com.solid4j.xmen.demo.service.impl.DemoServiceImpl" />
 
-	<xmen:service interface="com.solid4j.xmen.demo.service.TestService" class="com.solid4j.xmen.demo.service.impl.TestServiceImpl" />
+	<xmen:service interface="com.solid4j.xmen.demo.service.DemoService2" class="com.solid4j.xmen.demo.service.impl.DemoServiceImpl2" />
 
 </beans>

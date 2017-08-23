@@ -4,7 +4,7 @@ package com.solid4j.xmen.demo.service;
  * @author: solidwang
  * @since 1.0
  */
-public interface TestService {
+public interface DemoService2 {
 
-    String test();
+    String sayEnd(String username);
 }

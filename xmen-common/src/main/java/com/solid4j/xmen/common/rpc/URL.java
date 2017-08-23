@@ -4,6 +4,7 @@
 package com.solid4j.xmen.common.rpc;
 
 import com.solid4j.xmen.common.constant.XmenConstant;
+import org.apache.commons.collections4.MapUtils;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -24,7 +25,8 @@ public class URL implements Serializable {
 
     private Map<String, String> parameters = new HashMap<String, String>();
 
-    public URL(){}
+    public URL() {
+    }
 
     public URL(String protocol, String host, Integer port) {
         this.protocol = protocol;
@@ -32,9 +34,30 @@ public class URL implements Serializable {
         this.port = port;
     }
 
+    public URL(String protocol, String host, Integer port, Map<String, String> parameters) {
+        this.protocol = protocol;
+        this.host = host;
+        this.port = port;
+        this.parameters = parameters;
+    }
+
     @Override
     public String toString() {
-        return protocol + XmenConstant.PROTOCOL_SEPARATOR + host + ":" + port;
+        StringBuilder stringBuilder = new StringBuilder("");
+        stringBuilder.append(protocol)
+                .append(XmenConstant.PROTOCOL_SEPARATOR)
+                .append(host);
+        if (port != 0) {
+            stringBuilder.append(":").append(port);
+        }
+        if (MapUtils.isNotEmpty(parameters)) {
+            stringBuilder.append("?");
+            for (Map.Entry<String, String> parameter : parameters.entrySet()) {
+                stringBuilder.append(parameter.getKey()).append("=").append(parameter.getValue()).append("&");
+            }
+            stringBuilder.deleteCharAt(stringBuilder.lastIndexOf("&"));
+        }
+        return stringBuilder.toString();
     }
 
     public String getProtocol() {
@@ -69,17 +92,19 @@ public class URL implements Serializable {
 
     /**
      * 字符串转URL
+     *
      * @param url
      * @return
      */
     public static URL valueOf(String url) {
-        //字符串demo: xmen://10.2.130.156:20000
+        //字符串demo: xmen://0.0.0.0:20000?regProtocol=zookeeper&address=0.0.0.0:2181&connectTimeout=2000
         String protocol = null;
         String host = null;
         Integer port = 0;
         String path = null;
-        if(url.indexOf(XmenConstant.PROTOCOL_SEPARATOR) == -1)
+        if (url.indexOf(XmenConstant.PROTOCOL_SEPARATOR) == -1)
             return null;
+        url = url.substring(0, url.indexOf(XmenConstant.PARAMATER_SEPARATOR));
         String[] protocolArr = url.split(XmenConstant.PROTOCOL_SEPARATOR);
         protocol = protocolArr[0];
         String hostAndPort = protocolArr[1];
@@ -98,7 +123,9 @@ public class URL implements Serializable {
 
     public String getParameter(String key, String defaultValue) {
         String value = getParameter(key);
-        if (value == null || value.length() == 0) { return defaultValue; }
+        if (value == null || value.length() == 0) {
+            return defaultValue;
+        }
         return value;
     }
 
