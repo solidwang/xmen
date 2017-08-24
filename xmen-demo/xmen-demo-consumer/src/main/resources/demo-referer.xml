@@ -14,7 +14,7 @@
 
 	<!-- 注册中心 -->
 	<xmen:registry name="registry" regProtocol="zookeeper"
-		address="127.0.0.1:2181" connectTimeout="2000" />
+		address="127.0.0.1:2181" connectTimeout="5000" />
 
 	<!-- 服务引用 -->
     <xmen:referer id="demoService2" interface="com.solid4j.xmen.demo.service.DemoService2" />

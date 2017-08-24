@@ -13,7 +13,7 @@
        http://www.solid4j.com/schema/xmen http://www.solid4j.com/schema/xmen.xsd ">
 
 	<!-- 注册中心 -->
-	<xmen:registry name="registry" regProtocol="zookeeper" address="127.0.0.1:2181" connectTimeout="2000" />
+	<xmen:registry name="registry" regProtocol="zookeeper" address="127.0.0.1:2181" connectTimeout="5000" />
 
 	<!-- 服务协议 -->
 	<xmen:protocol name="xmen" port="20000" />
