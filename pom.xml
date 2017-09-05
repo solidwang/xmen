@@ -21,7 +21,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>4.5</junit.version>
         <slf4j.version>1.7.10</slf4j.version>
-        <spring.version>4.1.5.RELEASE</spring.version>
+        <spring.version>4.2.5.RELEASE</spring.version>
         <protostuff.version>1.0.9</protostuff.version>
         <objenesis.version>2.1</objenesis.version>
         <commons-lang.version>3.3.2</commons-lang.version>
@@ -32,7 +32,47 @@
         <cglib.version>3.1</cglib.version>
         <javassist.version>3.21.0-GA</javassist.version>
         <netty.version>4.1.4.Final</netty.version>
+        <skip_maven_deploy>false</skip_maven_deploy>
     </properties>
+    <repositories>
+        <repository>
+            <id>Nexus</id>
+            <name>Nexus Public Repository</name>
+            <url>http://dev.hd.sohu.com.cn/nexus/content/groups/public</url>
+        </repository>
+        <repository>
+            <id>Nexus-releases</id>
+            <name>Nexus Release Repository</name>
+            <url>http://dev.hd.sohu.com.cn/nexus/content/repositories/releases</url>
+        </repository>
+        <repository>
+            <id>Nexus-3rd</id>
+            <name>Nexus local Repository</name>
+            <url>http://dev.hd.sohu.com.cn/nexus/content/repositories/3rdparty</url>
+        </repository>
+        <repository>
+            <id>Nexus-snapshot</id>
+            <name>Nexus local snapshot</name>
+            <url>http://dev.hd.sohu.com.cn/nexus/content/repositories/snapshots</url>
+        </repository>
+        <repository>
+            <id>sohu.nexus</id>
+            <url>http://index.tv.sohuno.com/nexus/content/groups/public</url>
+        </repository>
+    </repositories>
+    <distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <name>Nexus Release Repository</name>
+            <url>http://dev.hd.sohu.com.cn/nexus/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://dev.hd.sohu.com.cn/nexus/content/repositories/snapshots</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
     <dependencyManagement>
         <dependencies>
             <!-- Spring -->
@@ -125,6 +165,13 @@
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>${skip_maven_deploy}</skip>
                 </configuration>
             </plugin>
         </plugins>
