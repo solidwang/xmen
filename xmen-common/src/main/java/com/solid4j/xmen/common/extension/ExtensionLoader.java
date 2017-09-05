@@ -5,6 +5,7 @@ package com.solid4j.xmen.common.extension;
 
 import com.solid4j.xmen.common.compiler.Compiler;
 import com.solid4j.xmen.common.rpc.URL;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -237,6 +238,7 @@ public class ExtensionLoader<T> {
                     int end = line.indexOf("#");
                     if (end >= 0)
                         line = line.substring(0, end).trim();
+                    if(StringUtils.isEmpty(line)) continue;
                     String name = line.split("=")[0];
                     String value = line.split("=")[1];
                     Class<?> clazz = Class.forName(value);
